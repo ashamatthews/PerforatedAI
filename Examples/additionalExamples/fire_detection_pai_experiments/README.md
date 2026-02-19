@@ -57,8 +57,8 @@ The script automatically runs two versions:
 
 | Model | Test Accuracy | Precision | Recall | F1 |
 |-------|--------------|----------|--------|-----|
-| Baseline | 60.14% | 0.5878 | 0.6793 | 0.6302 |
-| + Dendrites | 63.32% | 0.6222 | 0.6779 | 0.6489 |
+| Baseline | 59.52% | 0.5811 | 0.6822 | 0.6276 |
+| + Dendrites | 64.09% | 0.6187 | 0.7341 | 0.6715 |
 
 Dendrites improved overall accuracy and F1 while increasing model capacity dynamically.
 
