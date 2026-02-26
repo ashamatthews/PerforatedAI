@@ -23,7 +23,10 @@ Final processed dataset:
 - ~0.08% fire pixels (extremely imbalanced)  
 - Train / Val / Test split: 70 / 15 / 15  
 
-For neural network experiments, a balanced subset is sampled for stability and speed.
+For neural network experiments:
+
+- Training uses a subsampled, balanced subset of positives and negatives for stability and speed.
+- Validation and test sets are also balanced to provide meaningful precision, recall, and F1 metrics.
 
 ---
 
@@ -36,8 +39,11 @@ Input (4 features)
 ->  Linear(64 -> 64)
 ->  ReLU
 ->  Linear(64 -> 1)
-->  Sigmoid
 ```
+
+- Output uses logits, with BCEWithLogitsLoss.
+- pos_weight is dynamically set to balance classes during training, emphasizing positive fire pixels.
+- Threshold for predictions: logits > 0 -> positive class.
 
 The same architecture is used for:
 
@@ -57,11 +63,10 @@ The script automatically runs two versions:
 
 | Model | Test Accuracy | Precision | Recall | F1 |
 |-------|--------------|----------|--------|-----|
-| Baseline | 59.52% | 0.5811 | 0.6822 | 0.6276 |
-| + Dendrites | 64.09% | 0.6187 | 0.7341 | 0.6715 |
+| Baseline | 61.03% | 0.6115 | 0.6053 | 0.6084 |
+| + Dendrites | 63.25% | 0.6062 | 0.7558 | 0.6728 |
 
-Dendrites improved overall accuracy and F1 while increasing model capacity dynamically.
-
+Dendrites improve overall F1 and recall, dynamically increasing model capacity to better capture rare fire events.
 ---
 
 ## Class Imbalance
@@ -70,9 +75,9 @@ Fire pixels represent <0.01% of total data.
 
 Because of this:
 
-- Accuracy alone is misleading  
-- Recall is critical (missing fires is costly)  
-- Balanced sampling is used for neural training  
+- Balanced subsampling for training, validation, and test sets.
+- BCEWithLogitsLoss with pos_weight to give more importance to positive samples.
+- Recall is prioritized in evaluation metrics to ensure rare events are detected.
 
 ---
 
@@ -120,9 +125,10 @@ Run all cells.
 
 ## Key Observations
 
-- Dendrite restructuring increases model capacity dynamically.
-- Validation and test performance improved compared to baseline.
-- Dynamic architecture growth can help under imbalanced conditions.
+- Baseline MLP achieves moderate F1 and recall under balanced training.
+- Dendrite restructuring increases model capacity dynamically, improving F1 and recall on test set.
+- Using pos_weight in BCE loss and emphasizing recall ensures rare fire events are better captured.
+- Balanced sampling stabilizes training and allows fair comparison between baseline and dendrite models.
 
 ---
 
