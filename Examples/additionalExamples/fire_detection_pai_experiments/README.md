@@ -25,8 +25,9 @@ Final processed dataset:
 
 For neural network experiments:
 
-- Training uses a subsampled, balanced subset of positives and negatives for stability and speed.
-- Validation and test sets are also balanced to provide meaningful precision, recall, and F1 metrics.
+- Training uses a subsampled and balanced subset: all positives and a limited number of negatives, for stability and speed.
+- Validation and test sets are also balanced, so precision, recall, and F1 metrics are meaningful.
+- Full dataset imbalance is not used in this experiment — the model is trained on a balanced subset, but dendrite growth is still tested for its ability to improve classification.
 
 ---
 
